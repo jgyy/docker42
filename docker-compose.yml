@@ -20,14 +20,12 @@ services:
       - ./wine-data:/home/gamer/.wine
       
       - /dev/dri:/dev/dri
-      - /dev/snd:/dev/snd
       
     network_mode: "host"
     
     privileged: false
     devices:
       - /dev/dri:/dev/dri
-      - /dev/snd:/dev/snd
     
     security_opt:
       - seccomp:unconfined

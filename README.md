@@ -34,18 +34,47 @@ make clean    # Remove everything
 **Steam Games:**
 ```bash
 make steam
+# Install any 3D game from Steam store (e.g., Portal, CS2, Dota 2)
+# Launch games directly from Steam interface
 ```
 
 **Windows Games:**
 ```bash
 make wine
 wine game-installer.exe
+# After installation, run games with: wine /path/to/game.exe
 ```
 
-**Linux Games:**
+**Linux Games (Package Manager):**
 ```bash
 make shell
-sudo apt install game-name
+sudo apt install supertuxkart     # 3D racing game
+sudo apt install 0ad              # 3D strategy game
+sudo apt install minetest         # 3D voxel game
+sudo apt install openarena        # 3D FPS game
+# Note: Game executables are in /usr/games/ directory
+```
+
+**Popular 3D Games to Try:**
+- **SuperTuxKart**: `sudo apt install supertuxkart && /usr/games/supertuxkart`
+- **0 A.D.**: `sudo apt install 0ad && /usr/games/0ad`
+- **Minetest**: `sudo apt install minetest && /usr/games/minetest`
+- **OpenArena**: `sudo apt install openarena && /usr/games/openarena`
+
+## Running Installed Games
+
+**From Container Shell:**
+```bash
+make shell
+export PATH=$PATH:/usr/games    # Add games to PATH
+minetest                        # Run game directly
+# Or use full path: /usr/games/minetest
+```
+
+**Direct Game Launch:**
+```bash
+docker exec -it gaming-env /usr/games/minetest
+docker exec -it gaming-env /usr/games/supertuxkart
 ```
 
 ## Data Storage
@@ -58,5 +87,5 @@ Game data persists in:
 ## Requirements
 
 - Docker and docker-compose
-- NVIDIA GPU (for 3D acceleration)
 - X11 display server
+- GPU with DRI support (Intel/AMD integrated or discrete graphics)
