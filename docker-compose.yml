@@ -1,33 +1,14 @@
 services:
-  gaming-container:
+  libft-dev:
     build: .
-    container_name: gaming-env
+    container_name: libft-workspace
+    volumes:
+      - .:/home/libft/workspace
+      - libft-home:/home/libft
+    working_dir: /home/libft/workspace
     stdin_open: true
     tty: true
-    
-    # GPU access for 3D acceleration (using DRI for integrated/AMD graphics)
-    
-    environment:
-      - DISPLAY=${DISPLAY}
-      - PULSE_SERVER=unix:/tmp/pulse-socket
-      
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - /tmp/pulse-socket:/tmp/pulse-socket:rw
-      
-      - ./game-data:/home/gamer/games
-      - ./steam-data:/home/gamer/.steam
-      - ./wine-data:/home/gamer/.wine
-      
-      - /dev/dri:/dev/dri
-      
-    network_mode: "host"
-    
-    privileged: false
-    devices:
-      - /dev/dri:/dev/dri
-    
-    security_opt:
-      - seccomp:unconfined
-    
-    restart: unless-stopped
+    command: /bin/bash
+
+volumes:
+  libft-home:

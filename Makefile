@@ -1,54 +1,29 @@
-.PHONY: help build start stop shell clean setup teardown
+.PHONY: build up down shell clean logs restart
 
-help: ## Show this help message
-	@echo "Gaming Container Management"
-	@echo "Usage: make [target]"
-	@echo ""
-	@echo "Targets:"
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-15s %s\n", $$1, $$2}'
+build:
+	docker-compose build
 
-setup: ## Allow X11 connections and create directories
-	@echo "Setting up gaming environment..."
-	@xhost +local:docker
-	@mkdir -p game-data steam-data wine-data
-	@echo "Setup complete!"
+up:
+	docker-compose up -d
 
-build: ## Build the gaming container
-	@echo "Building gaming container..."
-	@docker-compose build
+down:
+	docker-compose down
 
-start: setup build ## Start the gaming container
-	@echo "Starting gaming container..."
-	@docker-compose up -d
-	@echo "Container started! Use 'make shell' to access it."
+shell:
+	docker-compose exec libft-dev bash
 
-stop: ## Stop the gaming container
-	@echo "Stopping gaming container..."
-	@docker-compose down
+run:
+	docker-compose run --rm libft-dev bash
 
-shell: ## Access the gaming container shell
-	@docker-compose exec gaming-container bash
+logs:
+	docker-compose logs -f libft-dev
 
-restart: stop start ## Restart the gaming container
+restart:
+	docker-compose restart
 
-clean: ## Remove container and images
-	@echo "Cleaning up..."
-	@docker-compose down --rmi all --volumes
-	@docker system prune -f
+clean:
+	docker-compose down --volumes --rmi all
 
-teardown: clean ## Complete cleanup including X11 permissions
-	@echo "Performing complete teardown..."
-	@xhost -local:docker
-	@echo "Teardown complete!"
+rebuild: clean build up
 
-logs: ## Show container logs
-	@docker-compose logs -f
-
-status: ## Show container status
-	@docker-compose ps
-
-steam: ## Launch Steam directly
-	@docker-compose exec gaming-container sudo -u gamer steam
-
-wine: ## Configure Wine
-	@docker-compose exec gaming-container sudo -u gamer winecfg
+dev: build run

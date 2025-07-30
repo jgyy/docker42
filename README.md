@@ -1,91 +1,98 @@
-# Gaming Container Setup
+# Libft Docker Development Environment
 
-Docker container for running 3D GUI games without sudo rights on Ubuntu.
+A containerized development environment for the 42 School libft project, providing all necessary tools without requiring sudo access on your host system.
+
+## Prerequisites
+
+- Docker
+- Docker Compose
 
 ## Quick Start
 
-```bash
-make start    # Setup and start container
-make shell    # Access gaming environment
-make stop     # Stop container
-```
+1. **Build and run the development environment:**
+   ```bash
+   make dev
+   ```
+
+2. **Or use individual commands:**
+   ```bash
+   # Build the Docker image
+   make build
+   
+   # Start development shell
+   make run
+   ```
 
 ## Available Commands
 
-```bash
-make help     # Show all available commands
-make steam    # Launch Steam directly
-make wine     # Configure Wine for Windows games
-make logs     # View container logs
-make clean    # Remove everything
+| Command | Description |
+|---------|-------------|
+| `make build` | Build the Docker image |
+| `make up` | Start container in background |
+| `make down` | Stop the container |
+| `make shell` | Enter running container |
+| `make run` | Start new container with shell |
+| `make logs` | View container logs |
+| `make restart` | Restart the container |
+| `make clean` | Remove containers and images |
+| `make rebuild` | Clean rebuild everything |
+| `make dev` | Build and start development shell |
+
+## Development Workflow
+
+1. **Start development:**
+   ```bash
+   make dev
+   ```
+
+2. **Inside the container, work on your libft:**
+   ```bash
+   # Your project files are in /home/libft/workspace
+   ls -la
+   
+   # Compile your library
+   make
+   
+   # Test with provided main functions
+   gcc -Wall -Wextra -Werror main.c libft.a
+   ./a.out
+   
+   # Debug with gdb
+   gdb ./a.out
+   
+   # Check for memory leaks with valgrind
+   valgrind --leak-check=full ./a.out
+   ```
+
+3. **Exit container:**
+   ```bash
+   exit
+   ```
+
+## Included Tools
+
+- **GCC**: C compiler with all necessary flags
+- **Make**: Build automation
+- **GDB**: GNU Debugger
+- **Valgrind**: Memory leak detection
+- **Git**: Version control
+- **Vim/Nano**: Text editors
+- **Man pages**: Documentation
+
+## Project Structure
+
+```
+docker42/
+├── Dockerfile          # Container definition
+├── docker-compose.yml  # Container orchestration
+├── Makefile            # Build commands
+├── README.md           # This file
+└── [your libft files]  # Your project files
 ```
 
-## What's Included
+## Notes
 
-- Steam for Steam games
-- Wine for Windows games  
-- Mesa/OpenGL for 3D graphics
-- Vulkan support
-- PulseAudio for audio
-- SDL2 libraries
-
-## Installing Games
-
-**Steam Games:**
-```bash
-make steam
-# Install any 3D game from Steam store (e.g., Portal, CS2, Dota 2)
-# Launch games directly from Steam interface
-```
-
-**Windows Games:**
-```bash
-make wine
-wine game-installer.exe
-# After installation, run games with: wine /path/to/game.exe
-```
-
-**Linux Games (Package Manager):**
-```bash
-make shell
-sudo apt install supertuxkart     # 3D racing game
-sudo apt install 0ad              # 3D strategy game
-sudo apt install minetest         # 3D voxel game
-sudo apt install openarena        # 3D FPS game
-# Note: Game executables are in /usr/games/ directory
-```
-
-**Popular 3D Games to Try:**
-- **SuperTuxKart**: `sudo apt install supertuxkart && /usr/games/supertuxkart`
-- **0 A.D.**: `sudo apt install 0ad && /usr/games/0ad`
-- **Minetest**: `sudo apt install minetest && /usr/games/minetest`
-- **OpenArena**: `sudo apt install openarena && /usr/games/openarena`
-
-## Running Installed Games
-
-**From Container Shell:**
-```bash
-make shell
-export PATH=$PATH:/usr/games    # Add games to PATH
-minetest                        # Run game directly
-# Or use full path: /usr/games/minetest
-```
-
-**Direct Game Launch:**
-```bash
-docker exec -it gaming-env /usr/games/minetest
-docker exec -it gaming-env /usr/games/supertuxkart
-```
-
-## Data Storage
-
-Game data persists in:
-- `./game-data/` - General games
-- `./steam-data/` - Steam library
-- `./wine-data/` - Windows games
-
-## Requirements
-
-- Docker and docker-compose
-- X11 display server
-- GPU with DRI support (Intel/AMD integrated or discrete graphics)
+- All your project files are automatically mounted in the container
+- Changes made inside the container persist on your host system
+- The container runs as user 'libft' (not root) for security
+- Container includes all standard C libraries and development tools
