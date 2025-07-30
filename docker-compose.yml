@@ -1,14 +1,23 @@
 services:
-  libft-dev:
+  dev-env:
     build: .
-    container_name: libft-workspace
+    container_name: dev-workspace
     volumes:
-      - .:/home/libft/workspace
-      - libft-home:/home/libft
-    working_dir: /home/libft/workspace
+      - .:/home/developer/workspace
+      - dev-home:/home/developer
+      - /var/run/docker.sock:/var/run/docker.sock
+    working_dir: /home/developer/workspace
     stdin_open: true
     tty: true
+    ports:
+      - "3000:3000"    # React/Next.js
+      - "8080:8080"    # General web server
+      - "5000:5000"    # Flask
+      - "8000:8000"    # Django/FastAPI
+      - "4200:4200"    # Angular
+      - "5173:5173"    # Vite
+      - "8888:8888"    # Jupyter
     command: /bin/bash
 
 volumes:
-  libft-home:
+  dev-home:
