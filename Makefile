@@ -1,47 +1,43 @@
-.PHONY: build up down shell clean logs restart install
+.PHONY: build run stop clean shell steam help
+
+all: build
 
 build:
 	docker-compose build
 
-up:
+run:
 	docker-compose up -d
+	docker-compose exec gaming-benchmark /bin/bash
 
-down:
+stop:
 	docker-compose down
 
-shell:
-	docker-compose exec dev-env bash
+clean:
+	docker-compose down --rmi all --volumes --remove-orphans
+	docker system prune -f
 
-run:
-	docker-compose run --rm dev-env bash
+shell:
+	docker-compose exec gaming-benchmark /bin/bash
+
+steam:
+	@echo "Launching Steam with AMD RX 6500 GPU..."
+	docker-compose exec --user benchuser gaming-benchmark bash -c 'export DRI_PRIME=1; export AMD_VULKAN_ICD=RADV; export RADV_PERFTEST=gpl; export DISPLAY=:0; export QT_X11_NO_MITSHM=1; steam'
+
+gpu-check:
+	@echo "Checking AMD GPU status..."
+	docker-compose exec gaming-benchmark bash -c 'export DRI_PRIME=1; lspci | grep -i "vga\|amd\|radeon"'
 
 logs:
-	docker-compose logs -f dev-env
+	docker-compose logs -f gaming-benchmark
 
-restart:
-	docker-compose restart
-
-clean:
-	docker-compose down --volumes --rmi all
-
-rebuild: clean build up
-
-dev: build run
-
-install-node:
-	docker-compose exec dev-env npm install
-
-install-python:
-	docker-compose exec dev-env pip3 install -r requirements.txt
-
-create-react:
-	docker-compose exec dev-env npx create-react-app $(name)
-
-create-vue:
-	docker-compose exec dev-env vue create $(name)
-
-create-angular:
-	docker-compose exec dev-env ng new $(name)
-
-jupyter:
-	docker-compose exec dev-env jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+help:
+	@echo "Available commands:"
+	@echo "  build      - Build the Docker image"
+	@echo "  run        - Run container interactively"
+	@echo "  stop       - Stop the container"
+	@echo "  clean      - Clean up Docker resources"
+	@echo "  shell      - Get shell in running container"
+	@echo "  steam      - Launch Steam with AMD GPU"
+	@echo "  gpu-check  - Check AMD GPU status"
+	@echo "  logs       - Show container logs"
+	@echo "  help       - Show this help"

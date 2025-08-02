@@ -1,23 +1,27 @@
 services:
-  dev-env:
+  gaming-benchmark:
     build: .
-    container_name: dev-workspace
+    container_name: steam-amd-container
+    hostname: steam-amd
+    privileged: true
+    network_mode: host
+    
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - AMD_VULKAN_ICD=RADV
+      - RADV_PERFTEST=gpl
+      
     volumes:
-      - .:/home/developer/workspace
-      - dev-home:/home/developer
-      - /var/run/docker.sock:/var/run/docker.sock
-    working_dir: /home/developer/workspace
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /dev/dri:/dev/dri:rw
+      - ~/.steam:/home/benchuser/.steam:rw
+      
+    devices:
+      - /dev/dri:/dev/dri
+      - /dev/kfd:/dev/kfd
+              
     stdin_open: true
     tty: true
-    ports:
-      - "3000:3000"    # React/Next.js
-      - "8080:8080"    # General web server
-      - "5000:5000"    # Flask
-      - "8000:8000"    # Django/FastAPI
-      - "4200:4200"    # Angular
-      - "5173:5173"    # Vite
-      - "8888:8888"    # Jupyter
+    
     command: /bin/bash
-
-volumes:
-  dev-home:

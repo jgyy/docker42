@@ -1,0 +1,76 @@
+=== Memory Benchmark ===
+sysbench 1.0.20 (using system LuaJIT 2.1.0-beta3)
+
+Running the test with following options:
+Number of threads: 1
+Initializing random number generator from current time
+
+
+Running memory speed test with the following options:
+  block size: 1KiB
+  total size: 102400MiB
+  operation: write
+  scope: global
+
+Initializing worker threads...
+
+Threads started!
+
+Total operations: 104857600 (11290908.25 per second)
+
+102400.00 MiB transferred (11026.28 MiB/sec)
+
+
+General statistics:
+    total time:                          9.2861s
+    total number of events:              104857600
+
+Latency (ms):
+         min:                                    0.00
+         avg:                                    0.00
+         max:                                    0.03
+         95th percentile:                        0.00
+         sum:                                 3737.71
+
+Threads fairness:
+    events (avg/stddev):           104857600.0000/0.00
+    execution time (avg/stddev):   3.7377/0.00
+
+
+sysbench 1.0.20 (using system LuaJIT 2.1.0-beta3)
+
+Running the test with following options:
+Number of threads: 1
+Initializing random number generator from current time
+
+
+Running memory speed test with the following options:
+  block size: 1024KiB
+  total size: 10240MiB
+  operation: write
+  scope: global
+
+Initializing worker threads...
+
+Threads started!
+
+Total operations: 10240 (41788.70 per second)
+
+10240.00 MiB transferred (41788.70 MiB/sec)
+
+
+General statistics:
+    total time:                          0.2442s
+    total number of events:              10240
+
+Latency (ms):
+         min:                                    0.02
+         avg:                                    0.02
+         max:                                    0.16
+         95th percentile:                        0.02
+         sum:                                  242.86
+
+Threads fairness:
+    events (avg/stddev):           10240.0000/0.00
+    execution time (avg/stddev):   0.2429/0.00
+

@@ -1,0 +1,2 @@
+Authorization required, but no authorization protocol specified
+Error: main: Could not initialize canvas

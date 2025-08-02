@@ -1,0 +1,45 @@
+Geekbench 6.3.0 : https://www.geekbench.com/
+
+Geekbench 6 requires an active internet connection and automatically uploads 
+benchmark results to the Geekbench Browser.
+
+Upgrade to Geekbench 6 Pro to enable offline use and unlock other features:
+
+  https://store.primatelabs.com/v6
+
+Enter your Geekbench 6 Pro license using the following command line:
+
+  geekbench6 --unlock <email> <key>
+
+System Information
+  Operating System              Ubuntu 22.04.5 LTS
+  Kernel                        Linux 5.15.0-151-generic x86_64
+  Model                         Dell Inc. OptiPlex 7400 AIO
+  Motherboard                   Dell Inc. 09MKTP
+  BIOS                          Dell Inc. 1.1.16
+
+CPU Information
+  Name                          Intel Core i7-12700
+  Topology                      1 Processor, 12 Cores, 20 Threads
+  Identifier                    GenuineIntel Family 6 Model 151 Stepping 2
+  Base Frequency                4.80 GHz
+  L1 Instruction Cache          32.0 KB x 10
+  L1 Data Cache                 48.0 KB x 10
+  L2 Cache                      1.25 MB x 2
+  L3 Cache                      25.0 MB
+
+Memory Information
+  Size                          15.3 GB
+
+
+Single-Core
+  Running File Compression
+  Running Navigation
+  Running HTML5 Browser
+  Running PDF Renderer
+  Running Photo Library
+  Running Clang
+  Running Text Processing
+  Running Asset Compression
+  Running Object Detection
+  Running Background Blur

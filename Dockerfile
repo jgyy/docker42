@@ -1,78 +1,53 @@
 FROM ubuntu:22.04
 
-# Install comprehensive development packages (without Node.js first)
+ENV DEBIAN_FRONTEND=noninteractive
+ENV DISPLAY=:0
+ENV AMD_VULKAN_ICD=RADV
+ENV RADV_PERFTEST=gpl
+
+# Enable 32-bit architecture for Steam
+RUN dpkg --add-architecture i386
+
+# Install essential packages for AMD GPU and Steam
 RUN apt-get update && apt-get install -y \
-    # Base development tools
-    build-essential \
-    gcc \
-    g++ \
-    make \
-    cmake \
-    gdb \
-    valgrind \
-    git \
-    vim \
-    nano \
-    curl \
     wget \
-    unzip \
-    zip \
-    # Languages and runtimes
-    python3 \
-    python3-pip \
-    python3-venv \
-    openjdk-17-jdk \
-    golang-go \
-    rustc \
-    # C/C++ libraries
-    libc6-dev \
-    libbsd-dev \
-    man-db \
-    # Additional utilities
-    tree \
-    htop \
-    tmux \
-    screen \
+    mesa-vulkan-drivers \
+    mesa-vulkan-drivers:i386 \
+    libgl1-mesa-dri:i386 \
+    libgl1-mesa-glx:i386 \
+    libdrm2:i386 \
+    pciutils \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js 20.x separately to avoid conflicts
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs && \
+# Install X11 dependencies for Steam GUI
+RUN apt-get update && apt-get install -y \
+    libxrandr2 \
+    libxinerama1 \
+    libxcursor1 \
+    libxi6 \
+    libfontconfig1 \
+    libfreetype6 \
+    libxss1 \
+    libasound2 \
+    libnspr4 \
+    libnss3 \
+    libxtst6 \
+    libgtk-3-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Steam
+RUN cd /tmp && \
+    wget https://steamcdn-a.akamaihd.net/client/installer/steam.deb && \
+    dpkg -i steam.deb || true && \
+    apt-get update && \
+    apt-get install -f -y && \
+    rm -f steam.deb && \
     rm -rf /var/lib/apt/lists/*
 
-# Install global npm packages
-RUN npm install -g \
-    yarn \
-    typescript \
-    @vue/cli \
-    @angular/cli \
-    create-react-app \
-    @expo/cli \
-    @react-native-community/cli
+RUN useradd -m -s /bin/bash benchuser
+USER benchuser
+WORKDIR /home/benchuser
 
-# Install Python packages
-RUN pip3 install \
-    jupyter \
-    pandas \
-    numpy \
-    flask \
-    django \
-    fastapi \
-    requests
+RUN mkdir -p /home/benchuser/benchmarks
 
-# Create a user to avoid running as root
-RUN useradd -m -s /bin/bash developer && \
-    echo "developer:developer" | chpasswd && \
-    adduser developer sudo
-
-# Set working directory
-WORKDIR /home/developer/workspace
-
-# Change ownership of workspace
-RUN chown -R developer:developer /home/developer/workspace
-
-# Switch to non-root user
-USER developer
-
-# Set default command
 CMD ["/bin/bash"]

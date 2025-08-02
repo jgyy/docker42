@@ -1,0 +1,27 @@
+=== GPU Information ===
+Date: Sat Aug  2 05:31:39 UTC 2025
+Architecture: x86_64
+GPU Hardware:
+/home/benchuser/benchmarks/gpu_benchmarks.sh: line 26: lspci: command not found
+No GPU devices found via lspci
+
+Graphics Driver Info:
+NVIDIA drivers not available
+
+OpenGL Information:
+Authorization required, but no authorization protocol specified
+Error: unable to open display :0
+
+Vulkan Information:
+WARNING: [Loader Message] Code 0 : terminator_CreateInstance: Failed to CreateInstance in ICD 0.  Skipping ICD.
+ERROR: [../src/intel/vulkan/anv_device.c:1222] Code 0 : Unable to open device /dev/dri/renderD128: Permission denied (VK_ERROR_INCOMPATIBLE_DRIVER)
+ERROR: [../src/amd/vulkan/radv_physical_device.c:1862] Code 0 : Could not open device /dev/dri/renderD129: Permission denied (VK_ERROR_INCOMPATIBLE_DRIVER)
+ERROR: [../src/intel/vulkan_hasvk/anv_device.c:682] Code 0 : Unable to open device /dev/dri/renderD128: Permission denied (VK_ERROR_INCOMPATIBLE_DRIVER)
+Authorization required, but no authorization protocol specified
+Authorization required, but no authorization protocol specified
+Authorization required, but no authorization protocol specified
+Authorization required, but no authorization protocol specified
+Authorization required, but no authorization protocol specified
+XCB failed to connect to the X server due to error:1.
+ERROR at ./vulkaninfo/vulkaninfo.h:836: AppCreateXcbSurface failed to establish connection
+
